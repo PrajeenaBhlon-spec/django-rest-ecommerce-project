@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+
+    <form method="POST" id="otp-form">
+      {% csrf_token %}
+      <input type="number" placeholder="enter otp" name="otp">
+      <button type="submit">Verify</button>
+    </form>
+    <p id="error"></p>
+    <script>
+      document.getElementById("otp-form").addEventListener("submit" , async function(e){
+        e.preventDefault();
+        const formData = new FormData(this);
+        const csrfToken = formData.get("csrfmiddlewaretoken");
+
+        try{
+          const response = await fetch("{% url 'user-otp-for-password'%}" , {
+            method : "POST",
+            headers : {
+              'X-CSRFToken' : csrfToken
+            },
+            body : formData
+          });
+
+          const data = await response.json();
+          if (response.ok){
+              window.location.href = "/Login/userlogin/";
+          }
+          else{
+            document.getElementById("error").textContent = data.message;
+          }
+        }
+        catch(err){
+          document.getElementById("error").textContent = "Verification failed";
+        }
+      });
+    </script>
+  </body>
+  </html>

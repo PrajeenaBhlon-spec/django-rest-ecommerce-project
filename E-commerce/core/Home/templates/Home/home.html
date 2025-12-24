@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product</title>
+  </head>
+  <body>
+    <div>
+      <button id="log-out-button" onclick="logoutFunc()">Log out</button>
+    </div>
+    <button onclick="redirectToAdd()">add product</button>
+    <script>
+      const token = localStorage.getItem("access");
+      if (!token) {
+        window.location.href = "/Login/adminlogin/";
+      }
+      function redirectToAdd(){
+        window.location.href = "/product/productadd/"
+      }
+      function logoutFunc(){
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+        window.location.href = "/Login/adminlogin/";
+      }
+    </script>
+  </body>
+  </html>

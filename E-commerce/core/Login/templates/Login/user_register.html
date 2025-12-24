@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+  </head>
+
+  <body>
+    <form method="POST" action="{% url 'user-register-api'%}" id="register-form">
+      {% csrf_token %}
+      <input type="email" placeholder="Enter your email" name="email">
+      <input type="text" placeholder="enter username" name="username">
+      <input type="password" placeholder="Enter your password" name="password">
+      <input type="password" placeholder="Confirm password" name="confirm_password">
+      <button type="submit">Register</button>
+    </form>
+    <p id="error"></p>
+    <script>
+      document.getElementById("register-form").addEventListener("submit" , async function(e){
+        e.preventDefault();
+        const formData = new FormData(this);
+        const csrfToken = formData.get("csrfmiddlewaretoken");
+
+        try{
+          const response = await fetch("{% url 'user-register-api'%}" , {
+            method : "POST",
+            headers : {
+              'X-CSRFToken' : csrfToken
+            },
+            body : formData
+          });
+
+          const data = await response.json();
+          if (response.ok){
+              window.location.href = "/Login/otppage/";
+            }
+          else{
+            document.getElementById("error-message").textContent = data.message;
+          }
+        }
+        catch(err){
+          document.getElementById("error-message").textContent = "register failed";
+        }
+      });
+    </script>
+  </body>
+</html>

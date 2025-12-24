@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+  </head>
+
+  <body>
+    <div>
+      <div>
+        <h1>Welcome to Login Portal</h1>
+      </div>
+      <div>
+        <a class="link" href="{% url 'admin-login'%}">Login as admin</a></p>
+      </div>
+      <div>
+        <p class="link-p">Already have an account? <a class="link"  href="{% url 'user-login'%}">Login</a></p>
+      </div>  
+      <div>
+        <p class="link-p">Don't have an account? <a class="link" href="{% url 'user-register' %}">Register</a></p>
+      </div>     
+    </div>
+  </body>
+</html>

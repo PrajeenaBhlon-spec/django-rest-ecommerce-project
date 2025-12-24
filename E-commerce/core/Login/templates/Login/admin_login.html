@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+  </head>
+
+  <body>
+    <form id="admin-login-form" >
+      {% csrf_token %}
+      <input type="email" placeholder="enter email" name="email">
+      <input type="password" placeholder="enter password" name="password">
+      <button type="submit">Login</button>
+    </form>
+    <p id="error-message" style="color: red;"></p>
+    <script>
+      document.getElementById("admin-login-form").addEventListener("submit", async function(e){
+        e.preventDefault();
+        const formData = new FormData(this);
+        const csrfToken = formData.get("csrfmiddlewaretoken");
+
+        try {
+          const response = await fetch("{% url 'admin-login-api' %}", {
+            method: "POST",
+            headers: {
+              "X-CSRFToken": csrfToken
+            },
+            body: formData
+          });
+
+          const data = await response.json();
+
+          if (data.access) {
+            localStorage.setItem("access", data.access);
+            localStorage.setItem("refresh", data.refresh);
+
+            if (data.role === "admin") {
+              window.location.href = "/Login/adminpage/";
+            } else {
+              window.location.href = "/Login/admin/";
+            }
+          } else if (data.error) {
+            document.getElementById("error-message").textContent = data.error;
+          } else {
+            document.getElementById("error-message").textContent = "Login failed";
+          }
+
+        } 
+        catch (err) {
+          console.error(err);
+          document.getElementById("error-message").textContent = "Login failed";
+        }
+      });
+    </script>
+  </body>
+</html>

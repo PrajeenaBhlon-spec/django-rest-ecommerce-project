@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product</title>
+  </head>
+  <body>
+    <table border="1">
+      <tr>
+        <th>Product id</th>
+        <th>Product name</th>
+        <th>Product price</th>
+        <th>product image</th>
+      </tr>
+      {% for product in products %}
+      <tr>
+        <td>{{ product.id }}</td>
+        <td>{{ product.product_name }}</td>
+        <td>{{ product.product_price }}</td>
+        <td><img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" width="200"></td>
+      </tr>
+      {% endfor %}
+  </body>
+  </html>
