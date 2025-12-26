@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edit product</title>
+  </head>
+  <body>
+    <form>
+      <input type="number" placeholder="enter new price" name="price">
+      <button id="change-btn" type="submit">Update price</button>
+    </form>
+    <script>
+      document.getElementById("change-btn").addEventListner("submit" , async function(e){
+        e.preventDefault();
+        const formData = new FormData(this);
+      })
+    </script>
+  </body>
+  </html>

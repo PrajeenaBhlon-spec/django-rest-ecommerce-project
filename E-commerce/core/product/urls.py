@@ -3,12 +3,13 @@ from rest_framework.routers import DefaultRouter
 from .views import ProductViewSet
 from . import views
 
-
 router = DefaultRouter()
 router.register('product', ProductViewSet) 
 
 urlpatterns = [
   path('', include(router.urls)),
-  path('productlist/' , views.product_list , name = "product-list"),
-  path('productadd/' , views.product_add , name="product-add")
+  path('productlistuser/' , views.renderUserList , name = "product-list-user"),
+  path('productlistadmin/' , views.renderAdminList , name="product-list-admin" ),
+  path('productadd/' , views.product_add , name="product-add"),
+
 ]

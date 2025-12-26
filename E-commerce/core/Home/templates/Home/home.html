@@ -8,18 +8,22 @@
       <button id="log-out-button" onclick="logoutFunc()">Log out</button>
     </div>
     <button onclick="redirectToAdd()">add product</button>
+    <button onclick="redirectToView()">view product</button>
     <script>
-      const token = localStorage.getItem("access");
+      const token = localStorage.getItem("admin-access");
       if (!token) {
-        window.location.href = "/Login/adminlogin/";
+        window.location.href = "/Login/admin/";
       }
       function redirectToAdd(){
         window.location.href = "/product/productadd/"
       }
+      function redirectToView(){
+        window.location.href = "/product/productlistadmin/"
+      }
       function logoutFunc(){
-        localStorage.removeItem("access");
-        localStorage.removeItem("refresh");
-        window.location.href = "/Login/adminlogin/";
+        localStorage.removeItem("admin-access");
+        localStorage.removeItem("admin-refresh");
+        window.location.href = "/Login/admin/";
       }
     </script>
   </body>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product</title>
+  </head>
+  <body>
+    <table border="1">
+      <tr>
+        <th>Product id</th>
+        <th>Product name</th>
+        <th>Product price</th>
+        <th>product image</th>
+        <th>Actions </th>
+      </tr>
+      {% for product in products %}
+      <tr>
+        <td>{{ product.id }}</td>
+        <td>{{ product.product_name }}</td>
+        <td>{{ product.product_price }}</td>
+        <td><img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" width="200"></td>
+        <td>
+          <button id="delete-btn" onclick="deletion({{product.id}})">Delete</button>
+          <button id="edit-btn" onclick="edit({{product.id}})">Edit</button>
+        </td>
+      </tr>
+      {% endfor %}
+      <p id="error"></p>
+      <script>
+        async function deletion(productId){
+        const response = await fetch(`/product/product/${productId}/` , {
+          method : "DELETE",
+          headers : {
+          "X-CSRFToken": "{{ csrf_token }}"
+        }
+        });
+        const data = await response.json()
+        if (response.ok){
+          window.location.reload();
+        }
+        else{
+          document.getElementById("error").textContent = "Failed to delete";
+        }
+      }
+
+      
+    </script>
+  </body>
+  </html>

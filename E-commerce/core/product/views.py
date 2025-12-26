@@ -6,6 +6,16 @@ from .serializers import ProductSerializer
 from .models import Product
 from .forms import ProductForm
 from django.http import JsonResponse
+from rest_framework.decorators import api_view
+
+
+def renderUserList(request):
+  products = Product.objects.all()
+  return render(request , 'product/product_list_user.html' , {"products": products})
+
+def renderAdminList(request):
+  products = Product.objects.all()
+  return render(request , 'product/product_list_admin.html' ,  {"products": products})
 
 class product_api_view(APIView):
   def get(self , request):
@@ -25,19 +35,33 @@ class ProductViewSet(viewsets.ModelViewSet):
   queryset = Product.objects.all()
   serializer_class = ProductSerializer
 
-def product_add(request):
+  def destroy(self, request, pk=None):
+    try:
+      product = Product.objects.get(pk=pk)
+      product.delete()
+      return Response({"message": "Product deleted successfully!"}, status=status.HTTP_200_OK)
+    except Product.DoesNotExist:
+      return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
 
+def product_add(request):
   if request.method == "POST":
     form = ProductForm(request.POST , request.FILES)
     if form.is_valid():
       form.save()
-      return redirect("product-list")
+      return redirect("product-list-admin")
   
   form = ProductForm()
   return render(request , "product/add_product.html" , {"form":form})
   
+
+class ProductEditApi(APIView):
+  def post(self , request , id):
+    price = request.data.get("price")
+    try:
+      product = Product.objects.get(id = id)
+      product.price = price
+      product.save()
+      return Response({"message":"Product price changed successfully."} , status = status.HTTP_201_CREATED)
+    except Product.DoesNotExist:
+      return Response({"message":"product with this id donot exist"}, status = status.HTTP_400_BAD_REQUEST)
     
-def product_list(request):
-  products = Product.objects.all()
-  return render(request, "product/product_list.html", {"products": products})
-  
