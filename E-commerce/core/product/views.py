@@ -42,6 +42,8 @@ class ProductViewSet(viewsets.ModelViewSet):
       return Response({"message": "Product deleted successfully!"}, status=status.HTTP_200_OK)
     except Product.DoesNotExist:
       return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+  
 
 def product_add(request):
   if request.method == "POST":
@@ -54,12 +56,13 @@ def product_add(request):
   return render(request , "product/add_product.html" , {"form":form})
   
 
+
 class ProductEditApi(APIView):
   def post(self , request , id):
-    price = request.data.get("price")
+    price = request.data.get("product_price")
     try:
       product = Product.objects.get(id = id)
-      product.price = price
+      product.product_price = price
       product.save()
       return Response({"message":"Product price changed successfully."} , status = status.HTTP_201_CREATED)
     except Product.DoesNotExist:

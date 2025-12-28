@@ -11,5 +11,5 @@ urlpatterns = [
   path('productlistuser/' , views.renderUserList , name = "product-list-user"),
   path('productlistadmin/' , views.renderAdminList , name="product-list-admin" ),
   path('productadd/' , views.product_add , name="product-add"),
-
+  path('productedit/api/<int:id>/' , views.ProductEditApi.as_view() , name="product-edit-api")
 ]

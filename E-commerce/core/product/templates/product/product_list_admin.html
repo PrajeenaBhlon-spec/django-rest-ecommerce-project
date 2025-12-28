@@ -16,7 +16,7 @@
       <tr>
         <td>{{ product.id }}</td>
         <td>{{ product.product_name }}</td>
-        <td>{{ product.product_price }}</td>
+        <td id="product-price-{{product.id}}">{{ product.product_price }}</td>
         <td><img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" width="200"></td>
         <td>
           <button id="delete-btn" onclick="deletion({{product.id}})">Delete</button>
@@ -26,21 +26,52 @@
       {% endfor %}
       <p id="error"></p>
       <script>
+
+        function edit(productId) {
+          document.getElementById(`product-price-${productId}`).innerHTML = `
+            <form id="price-form-${productId}">
+              {% csrf_token %}
+              <input id="new-price-${productId}" name="product_price" type="number" placeholder="enter price">
+              <button type="button" onclick="changePrice(${productId})">Change</button>
+            </form>
+          `;
+          }
+
+        async function changePrice(id) {
+          const form = document.getElementById(`price-form-${id}`);
+          const formData = new FormData(form);
+          const csrfToken = formData.get("csrfmiddlewaretoken");
+
+          const response = await fetch(`/product/productedit/api/${id}/`, {
+            method: "POST",
+            headers: {
+              "X-CSRFToken": csrfToken,
+            },
+            body: formData
+          });
+
+          if (response.ok) {
+            window.location.reload()
+          } else {
+            document.getElementById("error").textContent = "Failed to edit";
+          }
+        }
+
         async function deletion(productId){
-        const response = await fetch(`/product/product/${productId}/` , {
-          method : "DELETE",
-          headers : {
-          "X-CSRFToken": "{{ csrf_token }}"
+          const response = await fetch(`/product/product/${productId}/` , {
+            method : "DELETE",
+            headers : {
+              "X-CSRFToken": "{{ csrf_token }}"
+          }
+          });
+          const data = await response.json()
+          if (response.ok){
+            window.location.reload();
+          }
+          else{
+            document.getElementById("error").textContent = "Failed to delete";
+          }
         }
-        });
-        const data = await response.json()
-        if (response.ok){
-          window.location.reload();
-        }
-        else{
-          document.getElementById("error").textContent = "Failed to delete";
-        }
-      }
 
       
     </script>
