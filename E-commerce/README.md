@@ -18,4 +18,4 @@ Once logged in, a customer is redirected to a page where they can choose the “
 
 ## Admin Features
 
-When an admin logs in, they are redirected to a different page that allows them to add new products to the system. At the moment, the feature to edit existing products has not yet been implemented, as this project is still under development.
+When an admin logs in, they are redirected to a different page that allows them to add new products to the system. Also admin can now edit the product price and delete the product.
