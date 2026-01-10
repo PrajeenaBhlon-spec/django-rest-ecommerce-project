@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cart</title>
+  </head>
+  <body>
+    
+    <h2>{{ cart }}</h2>
+    <p>Logged in user: {{ request.user.email }}</p>
+    <p>Cart in context belongs to: {{ cart.user.email }}</p>
+    <p>Number of items: {{ items.count }}</p>
+    {% if items %}
+    <ul>
+      {% for item in items %}
+        <li>
+          <img src="{{ item.product.product_image.url }}" width="100">
+          <p>{{ item.product.product_name }}</p>
+          <p>Price: {{ item.product.product_price }}</p>
+          <p>Quantity: {{ item.quantity }}</p>
+          
+        </li>
+      {% endfor %}
+      <p>Total: {{ Total }}</p>
+    </ul>
+    {% else %}
+      <p>Your cart is empty.</p>
+    {% endif %}
+  </body>
+  </html>

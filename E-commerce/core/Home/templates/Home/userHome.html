@@ -7,6 +7,7 @@
     <div>
       <button id="log-out-button" onclick="logoutFunc()">Log out</button>
     </div>
+    <button id="cart-btn" onclick="Cart()">cart</button>
     <button onclick="redirectToView()">view product</button>
     <script>
       const token = localStorage.getItem("access");
@@ -20,6 +21,10 @@
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
         window.location.href = "/Login/userlogin/"
+      }
+      function Cart(){
+        window.location.href = "/product/cart/"
+        
       }
     </script>
   </body>

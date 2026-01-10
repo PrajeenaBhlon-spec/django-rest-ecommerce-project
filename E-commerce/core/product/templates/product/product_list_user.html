@@ -19,10 +19,30 @@
         <td>{{ product.product_price }}</td>
         <td><img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" width="200"></td>
         <td>
-          <button>Add to cart</button>
+          <button onclick="AdditionToCart({{product.id}})">Add to cart</button>
         </td>
       </tr>
       {% endfor %}
-      
+
+      <script>
+
+        async function AdditionToCart(id){
+          
+          const response = await fetch(`/product/addtocart/api/${id}/`, {
+            method : "POST",
+            headers : {
+              "Authorization" : `Bearer ${localStorage.getItem("access")}`
+            }
+          })
+          console.log("Status:", response.status)
+          if (response.ok){
+            alert("added to cart")
+          }
+          else{
+            alert("product not found")
+          }
+
+        }
+      </script>
   </body>
   </html>

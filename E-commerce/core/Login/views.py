@@ -45,7 +45,8 @@ class UserLoginApi(APIView):
         return JsonResponse({
           'access': str(refresh.access_token),
           'refresh': str(refresh),
-          'role': 'user'  
+          'role': 'user',
+          'email':   user.email
         })
       else:
         return Response({'message': 'Invalid credentials'} , status = status.HTTP_400_BAD_REQUEST)

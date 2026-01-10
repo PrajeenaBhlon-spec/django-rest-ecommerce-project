@@ -1,12 +1,16 @@
 from django.shortcuts import render , redirect
-from rest_framework.views import APIView
+from rest_framework.decorators import APIView , permission_classes 
+from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
 from rest_framework import status , viewsets
 from .serializers import ProductSerializer
-from .models import Product
+from .models import Product , CustomerCart , CartItem 
+from Login.models import CustomUser
 from .forms import ProductForm
-from django.http import JsonResponse
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated 
+
 
 
 def renderUserList(request):
@@ -68,3 +72,38 @@ class ProductEditApi(APIView):
     except Product.DoesNotExist:
       return Response({"message":"product with this id donot exist"}, status = status.HTTP_400_BAD_REQUEST)
     
+class CartApiView(APIView):
+  permission_classes = [IsAuthenticated]
+  authentication_classes = [JWTAuthentication]
+  def post(self, request, id):
+    cart, created = CustomerCart.objects.get_or_create(user=request.user)
+    try:
+      product = Product.objects.get(id=id)
+    except Product.DoesNotExist:
+      return Response({"message": "Product not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    cart_item, item_created = CartItem.objects.get_or_create(cart=cart, product=product)
+    if not item_created:
+      cart_item.quantity += 1
+      cart_item.save()
+
+    return Response({
+      "message": "Product added to cart.",
+      "product": product.product_name,
+      "quantity": cart_item.quantity
+    }, status=status.HTTP_200_OK)
+
+
+    
+@login_required
+def cart_view(request):
+  cart, created = CustomerCart.objects.get_or_create(user = request.user )
+  cart_items = cart.items.all()
+  Total = 0
+  for item in cart_items:
+    Total = Total + (item.product.product_price * item.quantity)
+  return render(request, "product/user_cart.html", {
+    "cart": cart,
+    "items": cart_items,
+    "Total" : Total
+  })
