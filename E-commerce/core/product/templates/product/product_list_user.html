@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Product</title>
-  </head>
-  <body>
-    <table border="1">
+{% extends 'product/base.html'%}
+{% block title%}Product{% endblock %}
+
+
+{% block content %}
+  <table border="1">
       <tr>
         <th>Product id</th>
         <th>Product name</th>
@@ -23,26 +22,24 @@
         </td>
       </tr>
       {% endfor %}
+{% endblock %}
 
-      <script>
-
-        async function AdditionToCart(id){
-          
-          const response = await fetch(`/product/addtocart/api/${id}/`, {
-            method : "POST",
-            headers : {
-              "Authorization" : `Bearer ${localStorage.getItem("access")}`
-            }
-          })
-          console.log("Status:", response.status)
-          if (response.ok){
-            alert("added to cart")
-          }
-          else{
-            alert("product not found")
-          }
-
-        }
-      </script>
-  </body>
-  </html>
+{% block extra_js %}
+  <script>
+    async function AdditionToCart(id){
+      const response = await authFetch(`/product/addtocart/api/${id}/`, {
+        method : "POST"
+      })
+      console.log("Status:", response.status)
+      if (response.ok){
+        alert("added to cart")
+      }
+      else if (response.status === 401){
+        alert("Login again")
+      }
+      else{
+        alert("product not found")
+      }
+    }
+  </script>
+{% endblock %}

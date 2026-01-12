@@ -1,6 +1,5 @@
 from django.shortcuts import render , redirect
 from rest_framework.decorators import APIView , permission_classes 
-from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
 from rest_framework import status , viewsets
 from .serializers import ProductSerializer
@@ -92,18 +91,22 @@ class CartApiView(APIView):
       "product": product.product_name,
       "quantity": cart_item.quantity
     }, status=status.HTTP_200_OK)
-
-
+  
+  def get(self, request):
+    cart, created = CustomerCart.objects.get_or_create(user=request.user)
+    items = cart.items.all()
+    data = [
+      {
+        "image":item.product.product_image.url,
+        "name": item.product.product_name,
+        "price": item.product.product_price,
+        "quantity": item.quantity,
+      }
+      for item in items
+    ]
+    total = sum(item["price"] * item["quantity"] for item in data)
+    return Response({"items": data, "total": total})
     
-@login_required
-def cart_view(request):
-  cart, created = CustomerCart.objects.get_or_create(user = request.user )
-  cart_items = cart.items.all()
-  Total = 0
-  for item in cart_items:
-    Total = Total + (item.product.product_price * item.quantity)
-  return render(request, "product/user_cart.html", {
-    "cart": cart,
-    "items": cart_items,
-    "Total" : Total
-  })
+
+def render_cart_page(request):
+  return render(request , "product/user_cart.html")

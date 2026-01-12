@@ -1,30 +1,40 @@
+{% extends 'product/base.html'%}
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Cart</title>
-  </head>
-  <body>
-    
-    <h2>{{ cart }}</h2>
-    <p>Logged in user: {{ request.user.email }}</p>
-    <p>Cart in context belongs to: {{ cart.user.email }}</p>
-    <p>Number of items: {{ items.count }}</p>
-    {% if items %}
-    <ul>
-      {% for item in items %}
-        <li>
-          <img src="{{ item.product.product_image.url }}" width="100">
-          <p>{{ item.product.product_name }}</p>
-          <p>Price: {{ item.product.product_price }}</p>
-          <p>Quantity: {{ item.quantity }}</p>
-          
-        </li>
-      {% endfor %}
-      <p>Total: {{ Total }}</p>
-    </ul>
-    {% else %}
-      <p>Your cart is empty.</p>
-    {% endif %}
-  </body>
-  </html>
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+    <div id="cart-product">
+    </div>
+    <p id="total-amount"></p>
+{% endblock %}
+{% block extra_js %}
+  <script>
+    async function cartData(){
+      const response = await authFetch(`/product/addtocart/api/`, {
+        method : "GET"
+      })
+      if (response.ok){
+        const data = await response.json();
+        const cartContainer = document.getElementById('cart-product');
+        cartContainer.innerHTML = ""; 
+
+        data.items.forEach(item => {
+          cartContainer.innerHTML += `
+            <div class="cart-item">
+              <img src="${item.image}" alt="${item.name}" width="100">
+              <p>Name: ${item.name}</p>
+              <p>Price: ${item.price}</p>
+              <p>Quantity: ${item.quantity}</p>
+            </div>
+           `;
+        });
+        document.getElementById('total-amount').innerText = `Total: ${data.total}`;
+        } 
+        else {
+          alert("Failed to load cart");
+        }
+    }
+    document.addEventListener("DOMContentLoaded", cartData);
+  
+</script>
+{% endblock %}

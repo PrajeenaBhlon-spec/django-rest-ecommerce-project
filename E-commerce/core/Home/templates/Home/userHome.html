@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Product</title>
-  </head>
-  <body>
-    <div>
-      <button id="log-out-button" onclick="logoutFunc()">Log out</button>
-    </div>
-    <button id="cart-btn" onclick="Cart()">cart</button>
-    <button onclick="redirectToView()">view product</button>
+{% extends 'product/base.html'%}
+
+{% block title %}Product{% endblock %}
+{% block content %}
+  <div>
+    <button id="log-out-button" onclick="logoutFunc()">Log out</button>
+  </div>
+  <button id="cart-btn" onclick="Cart()">cart</button>
+  <button onclick="redirectToView()">view product</button>
+{% endblock %}
+{% block extra_js %}
     <script>
       const token = localStorage.getItem("access");
       if (!token) {
@@ -24,8 +24,7 @@
       }
       function Cart(){
         window.location.href = "/product/cart/"
-        
       }
     </script>
-  </body>
-  </html>
+{% endblock %}
+  

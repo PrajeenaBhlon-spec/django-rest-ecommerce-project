@@ -1,14 +1,15 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Product</title>
-  </head>
-  <body>
+{% extends 'product/base.html'%}
+
+{% block title %}Product{% endblock %}
+  
+{% block content %}
     <div>
       <button id="log-out-button" onclick="logoutFunc()">Log out</button>
     </div>
     <button onclick="redirectToAdd()">add product</button>
     <button onclick="redirectToView()">view product</button>
+{% endblock %}
+{% block extra_js %}
     <script>
       const token = localStorage.getItem("admin-access");
       if (!token) {
@@ -26,5 +27,4 @@
         window.location.href = "/Login/admin/";
       }
     </script>
-  </body>
-  </html>
+{% endblock %}
