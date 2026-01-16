@@ -92,6 +92,7 @@ class CartApiView(APIView):
       "quantity": cart_item.quantity
     }, status=status.HTTP_200_OK)
   
+class UserCartDisplayApi(APIView):
   def get(self, request):
     cart, created = CustomerCart.objects.get_or_create(user=request.user)
     items = cart.items.all()

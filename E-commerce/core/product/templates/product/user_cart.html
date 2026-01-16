@@ -10,7 +10,7 @@
 {% block extra_js %}
   <script>
     async function cartData(){
-      const response = await authFetch(`/product/addtocart/api/`, {
+      const response = await authFetch(`/product/cartdisplay/api/`, {
         method : "GET"
       })
       if (response.ok){

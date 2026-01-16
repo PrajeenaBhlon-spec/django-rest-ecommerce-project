@@ -2,6 +2,7 @@ async function refreshAccessToken() {
   const refresh = localStorage.getItem("refresh");
 
   if (!refresh) {
+    window.location.href = "/Login/";
     return null;
   }
 
@@ -13,25 +14,28 @@ async function refreshAccessToken() {
     body: JSON.stringify({ refresh }),
   });
   if (!response.ok) {
+    localStorage.clear();
+    window.location.href = "/Login/";
     return null;
   }
   const data = await response.json();
   localStorage.setItem("access", data.access);
-  return data.access;
+  return data.access
 }
 
 async function authFetch(url, options = {}) {
   let access = localStorage.getItem("access");
   options.headers = {
     ...options.headers,
-    Authorization: `Bearer ${access}`
+    Authorization: `Bearer ${access}`,
+    "Content-Type": "application/json",
   };
 
   let response = await fetch(url, options);
 
   if (response.status === 401) {
     access = await refreshAccessToken();
-    if (!access) return response;
+    if (!access) return;
 
     options.headers.Authorization = `Bearer ${access}`;
     response = await fetch(url, options);
