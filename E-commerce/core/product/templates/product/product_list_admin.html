@@ -58,6 +58,7 @@
         }
 
         async function deletion(productId){
+          
           const response = await fetch(`/product/product/${productId}/` , {
             method : "DELETE",
             headers : {

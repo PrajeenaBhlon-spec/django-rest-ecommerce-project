@@ -4,8 +4,10 @@
 
 {% block content %}
     <div id="cart-product">
+      
     </div>
     <p id="total-amount"></p>
+    <button>Checkout</button>
 {% endblock %}
 {% block extra_js %}
   <script>
@@ -25,6 +27,7 @@
               <p>Name: ${item.name}</p>
               <p>Price: ${item.price}</p>
               <p>Quantity: ${item.quantity}</p>
+              <button onclick="deleteCartItem(${item.id})">Remove</button>
             </div>
            `;
         });
@@ -34,7 +37,20 @@
           alert("Failed to load cart");
         }
     }
+    async function deleteCartItem(id){
+      console.log("Clicked remove for:",id);
+      const response = await authFetch(`/product/deletecart/api/${id}/`, {
+        method : "DELETE"
+      })
+      if (response.ok){
+        window.location.reload()
+      } else {
+        document.getElementById("error").textContent = "Failed to edit";
+      }
+    }
+    
     document.addEventListener("DOMContentLoaded", cartData);
-  
+    
 </script>
+
 {% endblock %}

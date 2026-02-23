@@ -10,7 +10,13 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated 
 
+def productViewBeforeLogin(request):
+  products = Product.objects.all()
+  return render(request , 'Home/userProductView.html' , {"products": products})
 
+def productViewBeforeLogin(request):
+  products = Product.objects.all()
+  return render(request , 'Home/userProductView.html' , {"products": products})
 
 def renderUserList(request):
   products = Product.objects.all()
@@ -98,6 +104,7 @@ class UserCartDisplayApi(APIView):
     items = cart.items.all()
     data = [
       {
+        "id": item.id ,
         "image":item.product.product_image.url,
         "name": item.product.product_name,
         "price": item.product.product_price,
@@ -111,3 +118,12 @@ class UserCartDisplayApi(APIView):
 
 def render_cart_page(request):
   return render(request , "product/user_cart.html")
+
+
+class DeleteCartItemApi(APIView):
+  def delete(self , request , id):
+    cart, created = CustomerCart.objects.get_or_create(user=request.user)
+    cart_item = CartItem.objects.get(id = id)
+    cart_item.delete()
+    return Response({"message": "Product deleted successfully!"}, status=status.HTTP_200_OK)
+    
