@@ -16,5 +16,7 @@ urlpatterns = [
   path('cartdisplay/api/' , views.UserCartDisplayApi.as_view() , name="cart-display"),
   path('cart/' , views.render_cart_page , name="view-cart"),
   path('productdisplay/' , views.productViewBeforeLogin ),
-  path('deletecart/api/<int:id>/' , views.DeleteCartItemApi.as_view() , name="delete-cart-item")
+  path('deletecart/api/<int:id>/' , views.DeleteCartItemApi.as_view() , name="delete-cart-item"),
+  path('address/api/' , views.UserAddressApi.as_view() , name='user-address-entry'),
+  path('addresspage/' , views.addressPageRender , name="address-render")
 ]

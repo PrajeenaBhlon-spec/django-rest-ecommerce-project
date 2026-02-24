@@ -7,7 +7,7 @@
       
     </div>
     <p id="total-amount"></p>
-    <button>Checkout</button>
+    <button onclick="redirectToPayment()">Checkout</button>
 {% endblock %}
 {% block extra_js %}
   <script>
@@ -51,6 +51,9 @@
     
     document.addEventListener("DOMContentLoaded", cartData);
     
+    function redirectToPayment(){
+      window.location.href = "/product/addresspage/";
+    }
 </script>
 
 {% endblock %}

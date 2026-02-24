@@ -29,7 +29,11 @@ class CustomManager(BaseUserManager):
 class CustomUser(AbstractBaseUser , PermissionsMixin):
   username = models.CharField(max_length= 100)
   email = models.EmailField(max_length=100 , unique= True)
+  city = models.CharField(max_length= 100)
+  locality = models.CharField(max_length= 100)
+  tole = models.CharField(max_length= 100)
   otp = models.CharField(max_length= 6)
+  phone = models.IntegerField(unique=True , blank = True, null = True)
   is_verified = models.BooleanField(default = False)
   is_active = models.BooleanField(default=False)
   is_staff = models.BooleanField(default=False)

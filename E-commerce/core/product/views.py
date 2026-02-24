@@ -2,7 +2,7 @@ from django.shortcuts import render , redirect
 from rest_framework.decorators import APIView , permission_classes 
 from rest_framework.response import Response
 from rest_framework import status , viewsets
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer , UserAddressSerializer
 from .models import Product , CustomerCart , CartItem 
 from Login.models import CustomUser
 from .forms import ProductForm
@@ -127,3 +127,22 @@ class DeleteCartItemApi(APIView):
     cart_item.delete()
     return Response({"message": "Product deleted successfully!"}, status=status.HTTP_200_OK)
     
+class UserAddressApi(APIView):
+  permission_classes = [IsAuthenticated]
+  def post(self , request):
+    user = request.user
+    serializer = UserAddressSerializer(data = request.data)
+    if serializer.is_valid():
+      user.city = serializer.validated_data['city']
+      user.locality = serializer.validated_data['locality']
+      user.tole = serializer.validated_data['tole']
+      user.phone = serializer.validated_data['phone']
+      user.save()
+      return Response({"message":"succesfull"} , status = status.HTTP_200_OK)
+    else:
+      return Response({"message":"unsuccessfull"} , status = status.HTTP_400_BAD_REQUEST)
+
+    
+      
+def addressPageRender(request):
+  return render(request , "product/user_address.html")
