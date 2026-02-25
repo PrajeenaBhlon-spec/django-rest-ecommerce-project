@@ -1,11 +1,13 @@
 from django.shortcuts import render , redirect
 from rest_framework.decorators import APIView , permission_classes 
+from django.views import View
 from rest_framework.response import Response
 from rest_framework import status , viewsets
 from .serializers import ProductSerializer , UserAddressSerializer
 from .models import Product , CustomerCart , CartItem 
 from Login.models import CustomUser
 from .forms import ProductForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated 
@@ -144,5 +146,18 @@ class UserAddressApi(APIView):
 
     
       
-def addressPageRender(request):
-  return render(request , "product/user_address.html")
+class addressPageRender(APIView):
+  permission_classes = [IsAuthenticated]
+  def get(self , request):
+    user = request.user
+    print(user.city)
+    if user.city and user.locality and user.tole and user.phone:
+      return Response({'message':'data exists'} , status = status.HTTP_200_OK)
+    else:
+      return Response({'message':'data donot exists'} , status = status.HTTP_400_BAD_REQUEST)
+    
+def paymentPageRender(request):
+  return render(request , 'product/payment.html')
+
+def addressFormRender(request):
+  return render(request , 'product/user_address.html')

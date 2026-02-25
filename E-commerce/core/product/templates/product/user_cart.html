@@ -49,11 +49,20 @@
       }
     }
     
+    async function redirectToPayment(){
+      const response = await authFetch('/product/addresspage/',{
+        method : 'GET'
+      })
+      if (response.ok){
+        window.location.href = '/product/payment/'
+      }
+      else{
+        window.location.href = '/product/address/'
+      }
+    }
     document.addEventListener("DOMContentLoaded", cartData);
     
-    function redirectToPayment(){
-      window.location.href = "/product/addresspage/";
-    }
+    
 </script>
 
 {% endblock %}
