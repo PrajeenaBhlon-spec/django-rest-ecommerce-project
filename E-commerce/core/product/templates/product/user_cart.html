@@ -27,6 +27,9 @@
               <p>Name: ${item.name}</p>
               <p>Price: ${item.price}</p>
               <p>Quantity: ${item.quantity}</p>
+              
+              <button onclick="deleteOneItem(${item.id})">-</button>
+              <button onclick="AddOneItem(${item.id})">+</button>
               <button onclick="deleteCartItem(${item.id})">Remove</button>
             </div>
            `;
@@ -48,7 +51,28 @@
         document.getElementById("error").textContent = "Failed to edit";
       }
     }
-    
+    async function deleteOneItem(id){
+      console.log("Clicked remove for:",id);
+      const response = await authFetch(`/product/deleteone/api/${id}/`, {
+        method : "DELETE"
+      })
+      if (response.ok){
+        window.location.reload()
+      } else {
+        document.getElementById("error").textContent = "Failed to edit";
+      }
+    }
+    async function AddOneItem(id){
+      console.log("Clicked remove for:",id);
+      const response = await authFetch(`/product/addone/api/${id}/`, {
+        method : "DELETE"
+      })
+      if (response.ok){
+        window.location.reload()
+      } else {
+        document.getElementById("error").textContent = "Failed to edit";
+      }
+    }
     async function redirectToPayment(){
       const response = await authFetch('/product/addresspage/',{
         method : 'GET'

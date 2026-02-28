@@ -18,5 +18,9 @@ urlpatterns = [
   path('productdisplay/' , views.productViewBeforeLogin ),
   path('deletecart/api/<int:id>/' , views.DeleteCartItemApi.as_view() , name="delete-cart-item"),
   path('address/api/' , views.UserAddressApi.as_view() , name='user-address-entry'),
-  path('addresspage/' , views.addressPageRender , name="address-render")
+  path('addresspage/' , views.addressPageRender.as_view() , name="address-render"),
+  path('payment/' , views.paymentPageRender),
+  path('address/' , views.addressFormRender),
+  path('deleteone/api/<int:id>/' , views.DeleteOneCartItemApi.as_view()),
+  path('addone/api/<int:id>/' , views.AddOneCartItemApi.as_view())
 ]

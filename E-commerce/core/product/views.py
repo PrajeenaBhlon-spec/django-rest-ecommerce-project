@@ -128,7 +128,24 @@ class DeleteCartItemApi(APIView):
     cart_item = CartItem.objects.get(id = id)
     cart_item.delete()
     return Response({"message": "Product deleted successfully!"}, status=status.HTTP_200_OK)
-    
+
+class DeleteOneCartItemApi(APIView):
+  def delete(self , request , id):
+    cart, created = CustomerCart.objects.get_or_create(user=request.user)
+    cart_item = CartItem.objects.get(id = id)
+    if cart_item.quantity > 1:
+      cart_item.quantity = cart_item.quantity - 1
+      cart_item.save()
+      return Response({"message":"one item deleted"} , status= status.HTTP_200_OK)
+
+class AddOneCartItemApi(APIView):
+  def delete(self , request , id):
+    cart, created = CustomerCart.objects.get_or_create(user=request.user)
+    cart_item = CartItem.objects.get(id = id)
+    cart_item.quantity += 1 
+    cart_item.save()
+    return Response({"message":"one item added"} , status = status.HTTP_200_OK)
+
 class UserAddressApi(APIView):
   permission_classes = [IsAuthenticated]
   def post(self , request):
