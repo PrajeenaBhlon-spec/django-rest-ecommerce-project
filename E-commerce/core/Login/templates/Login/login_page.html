@@ -2,20 +2,70 @@
 <html>
   <head>
     <title>Login</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: white;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .landing-page {
+        background-color: white;
+        padding: 40px;
+        border-radius: 12px;
+        text-align: center;
+        width: 350px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      #welcome-part h1 {
+        margin-bottom: 30px;
+        color: #333;
+      }
+
+      .link {
+        display: inline-block;
+        text-decoration: none;
+        background-color:blue;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 6px;
+        margin-top: 10px;
+        transition: 0.3s;
+      }
+
+      .link:hover {
+        background-color: #3762b3;
+      }
+
+      .link-p {
+        margin: 15px 0;
+        color: #555;
+      }
+
+      #admin-login {
+        margin-bottom: 15px;
+      }
+    </style>
   </head>
 
   <body>
-    <div>
-      <div>
-        <h1>Welcome to Login Portal</h1>
+    <div class="landing-page">
+      <div id="welcome-part">
+        <h1>Welcome to Dolly Market!</h1>
       </div>
-      <div>
+      <div id="admin-login">
         <a class="link" href="{% url 'admin-login'%}">Login as admin</a></p>
       </div>
-      <div>
+      <div id="user-login">
         <p class="link-p">Already have an account? <a class="link"  href="{% url 'user-login'%}">Login</a></p>
       </div>  
-      <div>
+      <div id="user-register">
         <p class="link-p">Don't have an account? <a class="link" href="{% url 'user-register' %}">Register</a></p>
       </div>     
     </div>

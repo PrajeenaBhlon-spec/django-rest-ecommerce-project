@@ -33,7 +33,7 @@ class CustomUser(AbstractBaseUser , PermissionsMixin):
   locality = models.CharField(max_length= 100)
   tole = models.CharField(max_length= 100)
   otp = models.CharField(max_length= 6)
-  phone = models.IntegerField(unique=True , blank = True, null = True)
+  phone = models.CharField(unique=True , blank = True, null = True , max_length=10)
   is_verified = models.BooleanField(default = False)
   is_active = models.BooleanField(default=False)
   is_staff = models.BooleanField(default=False)
@@ -43,3 +43,5 @@ class CustomUser(AbstractBaseUser , PermissionsMixin):
   objects = CustomManager()
   def __str__(self):
     return self.email
+  
+

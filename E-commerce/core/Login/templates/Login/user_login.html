@@ -2,17 +2,74 @@
 <html>
   <head>
     <title>Login</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: white;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .login-container {
+        text-align: center;
+      }
+
+      #user-login-form {
+        background-color: white;
+        padding: 40px;
+        border-radius: 12px;
+        width: 320px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+      }
+
+      #user-login-form input {
+        padding: 12px;
+        margin-bottom: 15px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      #submit-btn {
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        background-color: blue;
+        color: white;
+        cursor: pointer;
+      }
+
+      #forgot-password {
+        display: block;
+        margin-top: 15px;
+        color: blue;
+        text-decoration: none;
+      }
+
+      #error-message {
+        color: red;
+        margin-top: 10px;
+      }
+    </style>
   </head>
 
   <body>
-    <form id="user-login-form">
-      {% csrf_token %}
-      <input type="email" placeholder="Enter your email" name="email">
-      <input type="password" placeholder="Enter your password" name="password">
-      <button type="submit">Login</button>
-    </form>
-    <a href="{% url 'forgot-password'%}">Forgot password?</a>
-    <p id="error-message"></p>
+    <div class="login-container">
+      <form id="user-login-form">
+        {% csrf_token %}
+        <input type="email" placeholder="Enter your email" name="email">
+        <input type="password" placeholder="Enter your password" name="password">
+        <button type="submit" id="submit-btn">Login</button>
+      </form>
+      <a href="{% url 'forgot-password'%}" id="forgot-password">Forgot password?</a>
+      <p id="error-message"></p>
+    </div>
+    
     <script>
       document.getElementById("user-login-form").addEventListener("submit" , async function(e){
         e.preventDefault();
