@@ -1,27 +1,25 @@
 {% extends 'product/base.html'%}
 {% block title%}Product{% endblock %}
+{% load static %}
 
-
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/product_list_user.css'%}">
+{% endblock %}
 {% block content %}
-  <table border="1">
-      <tr>
-        <th>Product id</th>
-        <th>Product name</th>
-        <th>Product price</th>
-        <th>product image</th>
-        <th>Add to cart</th>
-      </tr>
-      {% for product in products %}
-      <tr>
-        <td>{{ product.id }}</td>
-        <td>{{ product.product_name }}</td>
-        <td>{{ product.product_price }}</td>
-        <td><img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" width="200"></td>
-        <td>
-          <button onclick="AdditionToCart({{product.id}})">Add to cart</button>
-        </td>
-      </tr>
-      {% endfor %}
+  
+  {% for product in products %}
+    <div class="products-container">
+    
+      <div class="product-{{product.id}}">
+        <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" width="200" class="product-img">
+        <label>Product name: </label>
+        <span class="product-name">{{ product.product_name }}</span>
+        <label>Product price:</label>
+        <span class="product-price">{{ product.product_price }}</span>
+        <button onclick="AdditionToCart({{product.id}})" class="add-to-cart">Add to cart</button>
+      </div>
+    </div>
+  {% endfor %}
 {% endblock %}
 
 {% block extra_js %}

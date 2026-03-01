@@ -1,0 +1,40 @@
+body {
+  background-color: rgb(232, 234, 235);
+}
+
+.products-container {
+  width: 100vh;
+  display: inline-flex;
+}
+
+[class^="product-"] {
+  width: 10%;
+  min-width: 250px;
+  display: inline-block;
+  margin-bottom: 5%;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(225, 225, 225, 0.462);
+  padding: 5%;
+
+}
+
+.product-img {
+  width: 20%;
+}
+
+.product-name,
+.product-price {
+  font-size: 12px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+button {
+  width: 90px;
+  height: 35px;
+  background-color: rgb(40, 139, 192);
+  border: 1px;
+  border-style: none;
+  color: white;
+  box-shadow: 1px 3px 5px rgb(92, 157, 192);
+}
