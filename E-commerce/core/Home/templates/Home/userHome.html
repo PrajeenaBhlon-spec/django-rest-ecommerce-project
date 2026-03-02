@@ -1,12 +1,40 @@
+
 {% extends 'product/base.html'%}
+{% load static %}
 
 {% block title %}Product{% endblock %}
+{% block style %}
+  <link rel="stylesheet" href = "{% static 'css/userHome.css'%}">
+{% endblock %}
 {% block content %}
-  <div>
-    <button id="log-out-button" onclick="logoutFunc()">Log out</button>
+
+  <div class="navbar">
+    <button id="cart-btn" onclick="Cart()" id="cart-btn">cart</button>
+    <button onclick="redirectToView()">view more product</button>
+    <button id="log-out-button" id="logout-btn" onclick="logoutFunc()">Log out</button>
   </div>
-  <button id="cart-btn" onclick="Cart()">cart</button>
-  <button onclick="redirectToView()">view product</button>
+  <div class="item-options-container">
+    <div class="item-1">
+      <button>
+        <img src="/media/products/cosmetics.jpg" id="cosmetic-img">
+        Cosmetics
+      </button>
+    </div>
+    <div class="item-2">
+      <button>
+        <img src="/media/products/skincare.jpg" id="skincare-img">
+        Skincare
+      </button>
+    </div>
+    <div class="item-3">
+      <button>
+        <img src="/media/products/bodycare.jpg" id="bodycare-img">
+        Bodycare
+      </button>
+    </div>
+  </div>
+
+  
 {% endblock %}
 {% block extra_js %}
     <script>
