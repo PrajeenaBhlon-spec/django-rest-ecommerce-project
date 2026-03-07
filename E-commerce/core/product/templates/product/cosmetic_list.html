@@ -1,0 +1,43 @@
+{% extends 'product/base.html'%}
+{% block title%}Product{% endblock %}
+{% load static %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/product_list_user.css'%}">
+{% endblock %}
+{% block content %}
+  
+  {% for product in products %}
+    <div class="products-container">
+    
+      <div class="product-{{product.id}}">
+        <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" width="200" class="product-img">
+        <label>Product name: </label>
+        <span class="product-name">{{ product.product_name }}</span>
+        <label>Product price:</label>
+        <span class="product-price">{{ product.product_price }}</span>
+        <button onclick="AdditionToCart({{product.id}})" class="add-to-cart">Add to cart</button>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    async function AdditionToCart(id){
+      const response = await authFetch(`/product/addtocart/api/${id}/`, {
+        method : "POST"
+      })
+      console.log("Status:", response.status)
+      if (response.ok){
+        alert("added to cart")
+      }
+      else if (response.status === 401){
+        alert("Login again")
+      }
+      else{
+        alert("product not found")
+      }
+    }
+  </script>
+{% endblock %}

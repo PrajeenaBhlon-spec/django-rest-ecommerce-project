@@ -8,7 +8,9 @@ router.register('product', ProductViewSet)
 
 urlpatterns = [
   path('', include(router.urls)),
-  path('productlistuser/' , views.renderUserList , name = "product-list-user"),
+  path('cosmeticlist/' , views.renderCosmeticList , name = "cosmetic-list"),
+  path('skincarelist/' , views.renderSkincareList , name = "skincare-list"),
+  path('bodycarelist/' , views.renderBodycareList , name = "bodycare-list"),
   path('productlistadmin/' , views.renderAdminList , name="product-list-admin" ),
   path('productadd/' , views.product_add , name="product-add"),
   path('productedit/api/<int:id>/' , views.ProductEditApi.as_view() , name="product-edit-api"),

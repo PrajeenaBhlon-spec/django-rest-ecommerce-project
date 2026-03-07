@@ -20,9 +20,17 @@ def productViewBeforeLogin(request):
   products = Product.objects.all()
   return render(request , 'Home/userProductView.html' , {"products": products})
 
-def renderUserList(request):
-  products = Product.objects.all()
-  return render(request , 'product/product_list_user.html' , {"products": products})
+def renderCosmeticList(request):
+  products = Product.objects.filter( product_category = "cosmetic")
+  return render(request , 'product/cosmetic_list.html' , {"products": products})
+
+def renderSkincareList(request):
+  products = Product.objects.filter( product_category = "skincare")
+  return render(request , 'product/skincare_list.html' , {"products": products})
+
+def renderBodycareList(request):
+  products = Product.objects.filter( product_category = "bodycare")
+  return render(request , 'product/bodycare_list.html' , {"products": products})
 
 def renderAdminList(request):
   products = Product.objects.all()
