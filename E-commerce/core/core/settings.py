@@ -149,9 +149,10 @@ STATICFILES_DIRS = [
 ]
 
 AUTH_USER_MODEL = 'Login.CustomUser'
-
+GEMINI_API_KEY = 'AIzaSyDg8orgYuWpN1v1gYvsUqhPmd5q5ampkWA'
 
 import os 
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / 'media'
+

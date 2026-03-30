@@ -10,7 +10,7 @@
 
   <div class="navbar">
     <button id="cart-btn" onclick="Cart()" id="cart-btn">cart</button>
-    
+    <button id="chatbot-btn" onclick="chatbot()">Consult with AI</button>
     <button id="log-out-button" id="logout-btn" onclick="logoutFunc()">Log out</button>
   </div>
   <div class="item-options-container">
@@ -60,6 +60,9 @@
       }
       function skincare(){
         window.location.href = "/product/skincarelist/"
+      }
+      function chatbot(){
+        window.location.href = "/Home/chatbot/render/"
       }
     </script>
 {% endblock %}
